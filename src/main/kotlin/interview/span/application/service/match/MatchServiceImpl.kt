@@ -1,11 +1,10 @@
 package interview.span.application.service.match
 
+import interview.span.application.enums.MatchOutcomeEnum
 import interview.span.application.objects.MatchOutcomeDao
 import interview.span.application.objects.MatchPointDao
-import interview.span.application.enums.MatchOutcomeEnum
 import interview.span.domain.persistence.entities.TeamEntity
 import interview.span.infrastructure.persistence.Repository
-import interview.span.utils.config.ApplicationConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import interview.span.domain.persistence.entities.LeagueMatchEntity as Match
@@ -14,7 +13,7 @@ import interview.span.domain.persistence.entities.LeagueMatchOutcomeEntity as Ma
 @Component
 class MatchServiceImpl @Autowired constructor(
     private val repository: Repository
-): MatchService {
+) : MatchService {
 
     override fun createMatchEntry(matchOutcomeDao: MatchOutcomeDao): Match {
         return Match(

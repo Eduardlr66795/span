@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class SpanApplication
 
 fun main(args: Array<String>) {
-	runApplication<SpanApplication>(*args)
+    runApplication<SpanApplication>(*args)
 }

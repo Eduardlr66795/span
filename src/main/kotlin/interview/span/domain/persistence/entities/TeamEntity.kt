@@ -17,7 +17,7 @@ class TeamEntity(
 
     @Column(name = "name", updatable = true, nullable = false)
     private val name: String,
-    ) {
+) {
 
     private constructor() : this("")
 

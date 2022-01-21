@@ -5,4 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface LeagueMatchRepository: CrudRepository<LeagueMatchEntity, Long>
+interface LeagueMatchRepository : CrudRepository<LeagueMatchEntity, Long>

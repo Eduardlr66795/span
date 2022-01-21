@@ -1,8 +1,8 @@
 package interview.span.infrastructure.standing
 
 import interview.span.application.objects.TeamStandingsDao
-import interview.span.infrastructure.standing.events.UpdateTeamStandingEvent
 import interview.span.infrastructure.persistence.Repository
+import interview.span.infrastructure.standing.events.UpdateTeamStandingEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 

@@ -21,7 +21,7 @@ class PointConfigurationEntity(
     @Column(name = "points", updatable = true, nullable = false)
     private val points: Int,
 
-    ) {
+) {
 
     private constructor() : this("", 0)
 

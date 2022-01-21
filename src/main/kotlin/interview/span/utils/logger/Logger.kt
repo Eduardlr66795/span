@@ -16,5 +16,4 @@ object Logger {
         logFactory.info("THIS IS A LOG LINE")
         logFactory.info("THIS IS A LOG LINE")
     }
-
 }

@@ -80,10 +80,10 @@ class MatchImplIntegrationTest {
 
         val matchResultDaoList = listOf(
             MatchResultDao("Lions", 3, "Snakes", 1),
-                MatchResultDao("Lions", 1, "Sharks", 1)
+            MatchResultDao("Lions", 1, "Sharks", 1)
         )
 
-        for(entry in matchResultDaoList) {
+        for (entry in matchResultDaoList) {
             matchImpl.processMatchResultEntry(entry)
         }
 

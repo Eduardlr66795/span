@@ -6,7 +6,7 @@ import interview.span.utils.config.ApplicationConstants
 import org.springframework.stereotype.Component
 
 @Component
-class TeamServiceImpl: TeamService {
+class TeamServiceImpl : TeamService {
 
     override fun createTeamEntry(teamName: String): TeamEntity {
         return TeamEntity(

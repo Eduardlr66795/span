@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface TeamRepository: CrudRepository<TeamEntity, Long> {
+interface TeamRepository : CrudRepository<TeamEntity, Long> {
 
     fun findByName(name: String): Optional<TeamEntity>
 }

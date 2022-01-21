@@ -30,7 +30,7 @@ class Processor @Autowired constructor(
     }
 
     fun processRequest() {
-        val testList =  listOf(
+        val testList = listOf(
             MatchResultDao("Lions", 3, "Snakes", 3),
             MatchResultDao("Tarantulas", 1, "FC Awesome", 0),
             MatchResultDao("Lions", 1, "FC Awesome", 1),
@@ -40,7 +40,7 @@ class Processor @Autowired constructor(
 
         Logger.info()
 
-        for(lineItem in testList) {
+        for (lineItem in testList) {
             matchImpl.processMatchResultEntry(lineItem)
         }
     }

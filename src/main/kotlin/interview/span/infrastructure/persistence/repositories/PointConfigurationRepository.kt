@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface PointConfigurationRepository: CrudRepository<PointConfigurationEntity, Long> {
+interface PointConfigurationRepository : CrudRepository<PointConfigurationEntity, Long> {
 
     @Query("FROM PointConfigurationEntity inv WHERE outcome = :outcome")
     fun findByOutcome(

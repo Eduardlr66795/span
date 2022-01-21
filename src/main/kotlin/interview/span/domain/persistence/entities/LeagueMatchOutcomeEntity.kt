@@ -58,15 +58,15 @@ class LeagueMatchOutcomeEntity(
         return matchId
     }
 
-    fun getTeamId(): Long{
+    fun getTeamId(): Long {
         return teamId
     }
 
-    fun getTeamName(): String{
+    fun getTeamName(): String {
         return teamName
     }
 
-    fun getOutcome(): String{
+    fun getOutcome(): String {
         return outcome
     }
 

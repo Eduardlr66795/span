@@ -9,9 +9,9 @@ import interview.span.domain.persistence.entities.LeagueMatchEntity
 import interview.span.domain.persistence.entities.LeagueMatchOutcomeEntity
 import interview.span.domain.persistence.entities.TeamEntity
 import interview.span.domain.persistence.entities.TeamStandingEntity
-import interview.span.infrastructure.standing.events.UpdateTeamStandingEvent
 import interview.span.infrastructure.match.mapper.MatchMapper
 import interview.span.infrastructure.persistence.Repository
+import interview.span.infrastructure.standing.events.UpdateTeamStandingEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
@@ -139,7 +139,7 @@ class MatchImpl @Autowired constructor(
         repository.persist(teamStandingEntity)
 
         if (displayResults) {
-            println("${position}. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
+            println("$position. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
         }
     }
 

@@ -1,7 +1,6 @@
 package interview.span.application
 
 import interview.span.application.service.team.TeamService
-import interview.span.application.service.team.TeamServiceImpl
 import interview.span.domain.persistence.entities.TeamEntity
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

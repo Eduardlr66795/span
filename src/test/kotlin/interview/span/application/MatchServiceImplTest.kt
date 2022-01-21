@@ -2,7 +2,6 @@ package interview.span.application
 
 import interview.span.application.objects.MatchOutcomeDao
 import interview.span.application.objects.MatchPointDao
-import interview.span.application.service.match.MatchService
 import interview.span.application.service.match.MatchServiceImpl
 import interview.span.domain.persistence.entities.TeamEntity
 import org.junit.jupiter.api.Assertions
