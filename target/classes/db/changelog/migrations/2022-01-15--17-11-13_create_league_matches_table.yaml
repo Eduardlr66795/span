@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_league_match_table
+      author: Eduard Le Roux
+      changes:
+        - createTable:
+            tableName: league_matches
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: request_pkey
+
+              - column:
+                  name: host_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: host_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: host_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: opposition_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: opposition_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: opposition_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: DATETIME
+                  valueDate: "YYYY-MM-DDThh:mm:ss"
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  valueDate: "YYYY-MM-DDThh:mm:ss"
+                  constraints:
+                    nullable: false

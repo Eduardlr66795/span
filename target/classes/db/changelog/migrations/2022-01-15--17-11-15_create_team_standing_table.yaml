@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_team_standings_table
+      author: Eduard Le Roux
+      changes:
+        - createTable:
+            tableName: team_standings
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: request_pkey
+
+              - column:
+                  name: team_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: team_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: points
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: position
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: DATETIME
+                  valueDate: "YYYY-MM-DDThh:mm:ss"
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  valueDate: "YYYY-MM-DDThh:mm:ss"
+                  constraints:
+                    nullable: false

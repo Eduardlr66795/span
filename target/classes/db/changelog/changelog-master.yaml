@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - include:
+      file: /src/main/resources/db/changelog/migrations/2022-01-15--17-11-11_create_point_configurations_table.yaml
+
+  - include:
+      file: /src/main/resources/db/changelog/migrations/2022-01-15--17-11-12_create_teams_table.yaml
+
+  - include:
+      file: /src/main/resources/db/changelog/migrations/2022-01-15--17-11-13_create_league_matches_table.yaml
+
+  - include:
+      file: /src/main/resources/db/changelog/migrations/2022-01-15--17-11-14_create_league_match_outcome_table.yaml
+
+  - include:
+      file: /src/main/resources/db/changelog/migrations/2022-01-15--17-11-15_create_team_standing_table.yaml
+
+  - include:
+      file: /src/main/resources/db/changelog/seed/2022-01-15--17-11-11/seed_points_configuration_table.yaml

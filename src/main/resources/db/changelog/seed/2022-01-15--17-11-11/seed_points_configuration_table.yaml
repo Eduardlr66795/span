@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      context: test
+      id: seed_exchange_db
+      author: Eduard Le Roux
+      changes:
+        - sqlFile:
+            dbms:  'mysql'
+            encoding:  UTF-8
+            path: seed_points_configuration_table.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

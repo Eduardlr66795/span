@@ -1,0 +1,71 @@
+version: "3.6"
+
+services:
+  league_db:
+    image: mysql:5.7
+    volumes:
+      - dbvol:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=league
+      - MYSQL_ROOT_USER=root
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+    ports:
+      - 5432:3306
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        DB_USER: "${DB_USER:-root}"
+        DB_PASSWORD: "${DB_PASSWORD:-password}"
+        DB_URL: "${DB_URL:-jdbc:mysql://host.docker.internal:5432/league}"
+    container_name: league_service
+    environment:
+      - PROFILE=local
+      - DATABASE_NAME=league
+      - DATABASE_PORT=3306
+      - DATABASE_HOST=league_db
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+      - CACHE_HOST=host.docker.internal
+      - CACHE_PORT=6379
+    volumes:
+      - /app
+    ports:
+      - 8084:8080
+    tty: true
+    stdin_open: true
+    depends_on:
+      - league_db
+      - redis
+
+  datadog-agent:
+    image: gcr.io/datadoghq/agent:latest
+    environment:
+      - DD_API_KEY=fed66008133b794184794af92e861351
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_LOGS_CONFIG_DOCKER_CONTAINER_USE_FILE=true
+      - DD_CONTAINER_EXCLUDE="name:datadog-agent"
+      - DD_SITE=datadoghq.eu
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+
+volumes:
+  dbvol: {}
