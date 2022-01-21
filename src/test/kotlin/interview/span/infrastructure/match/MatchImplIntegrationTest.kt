@@ -1,23 +1,14 @@
 package interview.span.infrastructure.match
 
 import interview.span.application.objects.MatchResultDao
-import interview.span.application.service.match.MatchService
-import interview.span.application.service.match.MatchServiceImpl
-import interview.span.application.service.team.TeamService
 import interview.span.domain.persistence.entities.PointConfigurationEntity
 import interview.span.infrastructure.persistence.Repository
 import interview.span.infrastructure.persistence.repositories.PointConfigurationRepository
-import org.aspectj.lang.annotation.Before
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.ApplicationEventPublisher
-import org.springframework.test.context.event.annotation.BeforeTestClass
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
@@ -50,25 +41,13 @@ class MatchImplIntegrationTest {
 
     @Test
     fun testResultsForOneMatchResultEntry() {
-        // pointConfigurationRepository.save(
-        //     PointConfigurationEntity("LOSS", 0)
-        // )
-        //
-        // pointConfigurationRepository.save(
-        //     PointConfigurationEntity("WIN", 3)
-        // )
-        //
-        // pointConfigurationRepository.save(
-        //     PointConfigurationEntity("DRAW", 1)
-        // )
-
         // ASSERT: Lions & Snakes team entries do not exist in the database
         Assertions.assertTrue(repository.findTeamEntity("Lions").isEmpty)
         Assertions.assertTrue(repository.findTeamEntity("Snakes").isEmpty)
 
         val testMatchResultDao = MatchResultDao("Lions", 3, "Snakes", 1)
         matchImpl.processMatchResultEntry(testMatchResultDao)
-        matchImpl.publishTeamStandingResults()
+        matchImpl.publishTeamStandingResults(false)
 
         val lionsTeamEntityOptional = repository.findTeamEntity("Lions")
         val snakesTeamEntityOptional = repository.findTeamEntity("Snakes")
@@ -108,7 +87,7 @@ class MatchImplIntegrationTest {
             matchImpl.processMatchResultEntry(entry)
         }
 
-        matchImpl.publishTeamStandingResults()
+        matchImpl.publishTeamStandingResults(false)
 
         val lionsTeamEntityOptional = repository.findTeamEntity("Lions")
         val snakesTeamEntityOptional = repository.findTeamEntity("Snakes")

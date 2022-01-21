@@ -32,9 +32,9 @@ class MatchImpl @Autowired constructor(
         )
     }
 
-    fun publishTeamStandingResults() {
+    fun publishTeamStandingResults(displayResults: Boolean = true) {
         publishTeamStandingResults(
-            repository.findTopScoresDescending()
+            repository.findTopScoresDescending(), displayResults
         )
     }
 
@@ -50,7 +50,7 @@ class MatchImpl @Autowired constructor(
      * 2. After each of match result entry has been processed.
      *
      */
-     fun publishTeamStandingResults(teamPointsDescending: List<Int>) {
+    fun publishTeamStandingResults(teamPointsDescending: List<Int>, displayResults: Boolean) {
         // Find the top scores in descendingOrder
         var currPosition = 1
 
@@ -59,10 +59,10 @@ class MatchImpl @Autowired constructor(
 
             if (topTeamStandingEntityList.size == 1) {
                 val position = currPosition++
-                displayTeamStandingResults(position, topTeamStandingEntityList.first())
+                updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first(), displayResults)
             } else {
                 for (topTeamStandingEntity in topTeamStandingEntityList) {
-                    displayTeamStandingResults(currPosition, topTeamStandingEntity)
+                    updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity, displayResults)
                 }
                 currPosition += topTeamStandingEntityList.size
             }
@@ -78,9 +78,9 @@ class MatchImpl @Autowired constructor(
      */
     private fun processMatchPointAllocationEntries(matchOutcome: MatchOutcomeDao, leagueMatch: LeagueMatchEntity) {
         val matchPointEntries = matchService.createMatchPointAllocationEntry(matchOutcome, leagueMatch.getId())
-        for (item in matchPointEntries) {
+        for (entry in matchPointEntries) {
             publishTeamStandingsEvent(
-                repository.persist(item)
+                repository.persist(entry)
             )
         }
     }
@@ -130,8 +130,17 @@ class MatchImpl @Autowired constructor(
     /**
      * This method is used to display (print) the team standing result
      */
-    private fun displayTeamStandingResults(position: Int, teamStandingEntity: TeamStandingEntity) {
-        println("${position}. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
+    private fun updateAndDisplayTeamStandingResults(
+        position: Int,
+        teamStandingEntity: TeamStandingEntity,
+        displayResults: Boolean
+    ) {
+        teamStandingEntity.setPosition(position)
+        repository.persist(teamStandingEntity)
+
+        if (displayResults) {
+            println("${position}. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
+        }
     }
 
     private fun processMatchResultEntry(host: TeamEntity, opposition: TeamEntity, matchResultEntry: MatchResultDao) {

@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class MatchServiceImplTest {
 
     @Autowired
-    lateinit var matchService: MatchService
+    lateinit var matchService: MatchServiceImpl
 
     @Test
     fun testCreateMatchEntityMapping() {
