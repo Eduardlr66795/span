@@ -2,6 +2,7 @@ package interview.span.infrastructure.processor.rest.standings.v1
 
 import interview.span.infrastructure.processor.Processor
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -16,13 +17,13 @@ class StandingsV1Controller(
     @PostMapping(path = ["process-file"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun standingResultsRequestV1(
         @RequestParam fileName: String
-    ) {
-        processor.processStandingResultsRequest(fileName)
+    ): ResponseEntity<Any> {
+        return processor.processStandingResultsRequest(fileName)
     }
 
     @PostMapping(path = ["process-hardcoded-list"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun standingResultsRequestV1(
-    ) {
-        processor.processStandingResultsRequest()
+    ): ResponseEntity<Any> {
+        return processor.processStandingResultsRequest()
     }
 }

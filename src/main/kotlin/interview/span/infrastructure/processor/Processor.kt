@@ -7,6 +7,7 @@ import interview.span.infrastructure.persistence.Repository
 import interview.span.utils.config.ApplicationConfig
 import interview.span.utils.logging.Logger
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import java.io.File
 
@@ -21,17 +22,21 @@ class Processor @Autowired constructor(
      * The logic in this method is used to process the file given to us by the user
      * @param fileName - The name of the file given to us by the user
      */
-    fun processStandingResultsRequest(fileName: String) {
+    fun processStandingResultsRequest(fileName: String): ResponseEntity<Any> {
         File(fileName).bufferedReader().readLines().map { lineItem ->
             matchImpl.processMatchResultEntry(
                 createMatchResultEntry(lineItem)
             )
         }
 
-        matchImpl.publishTeamStandingResults()
+        val standingResultsList = matchImpl.publishTeamStandingResults()
+
+        processCleanup()
+
+        return ResponseEntity.ok(standingResultsList)
     }
 
-    fun processStandingResultsRequest() {
+    fun processStandingResultsRequest(): ResponseEntity<Any> {
         val testList = listOf(
             MatchResultDao("Lions", 3, "Snakes", 3),
             MatchResultDao("Tarantulas", 1, "FC Awesome", 0),
@@ -44,7 +49,11 @@ class Processor @Autowired constructor(
             matchImpl.processMatchResultEntry(lineItem)
         }
 
+        val standingResultsList = matchImpl.publishTeamStandingResults()
+
         processCleanup()
+
+        return ResponseEntity.ok(standingResultsList)
     }
 
     private fun createMatchResultEntry(fileLineEntry: String): MatchResultDao {

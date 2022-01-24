@@ -35,8 +35,8 @@ class MatchImpl @Autowired constructor(
         )
     }
 
-    fun publishTeamStandingResults() {
-        publishTeamStandingResults(
+    fun publishTeamStandingResults(): List<Any> {
+        return publishTeamStandingResults(
             repository.findTopScoresDescending()
         )
     }
@@ -53,23 +53,48 @@ class MatchImpl @Autowired constructor(
      * 2. After each of match result entry has been processed.
      *
      */
-    fun publishTeamStandingResults(teamPointsDescending: List<Int>) {
+    private fun publishTeamStandingResults(teamPointsDescending: List<Int>): List<String> {
         // Find the top scores in descendingOrder
         var currPosition = 1
+        val teamStandingResults = mutableListOf<String>()
 
         for (points in teamPointsDescending) {
             val topTeamStandingEntityList = repository.findByPoints(points)
 
             if (topTeamStandingEntityList.size == 1) {
                 val position = currPosition++
-                updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first())
+                teamStandingResults.add(
+                    updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first())
+                )
             } else {
                 for (topTeamStandingEntity in topTeamStandingEntityList) {
-                    updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity)
+                    teamStandingResults.add(
+                        updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity)
+                    )
                 }
                 currPosition += topTeamStandingEntityList.size
             }
         }
+
+        return teamStandingResults
+
+        // // val teamStandingResults = listOf<String>()
+        // return teamPointsDescending.map { points ->
+        //     val topTeamStandingEntityList = repository.findByPoints(points)
+        //     if (topTeamStandingEntityList.size == 1) {
+        //         val position = currPosition++
+        //         teamStandingResults.plus(
+        //             updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first())
+        //         )
+        //     } else {
+        //         for (topTeamStandingEntity in topTeamStandingEntityList) {
+        //             teamStandingResults.plus(
+        //                 updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity)
+        //             )
+        //         }
+        //         currPosition += topTeamStandingEntityList.size
+        //     }
+        // }
     }
 
     /**
@@ -136,11 +161,11 @@ class MatchImpl @Autowired constructor(
     private fun updateAndDisplayTeamStandingResults(
         position: Int,
         teamStandingEntity: TeamStandingEntity
-    ) {
+    ): String {
         teamStandingEntity.setPosition(position)
         repository.persist(teamStandingEntity)
 
-        println("$position. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
+        val result = ("$position. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
 
         Logger.info(
             LogEntry(
@@ -152,6 +177,8 @@ class MatchImpl @Autowired constructor(
                 )
             )
         )
+
+        return result
     }
 
     private fun processMatchResultEntry(host: TeamEntity, opposition: TeamEntity, matchResultEntry: MatchResultDao) {
