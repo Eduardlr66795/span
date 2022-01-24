@@ -20,9 +20,4 @@ class StandingsV1Controller(
     ): ResponseEntity<Any> {
         return processor.processStandingResultsRequest(fileName)
     }
-
-    @PostMapping(path = ["process-hardcoded-list"], consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun standingResultsRequestV1(): ResponseEntity<Any> {
-        return processor.processStandingResultsRequest()
-    }
 }

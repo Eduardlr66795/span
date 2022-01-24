@@ -35,29 +35,6 @@ class Processor @Autowired constructor(
         return ResponseEntity.ok(standingResultsList)
     }
 
-    /**
-     * This is a hardcoded list I used for testing (I left it in here as I constantly test if the container is up and running)
-     */
-    fun processStandingResultsRequest(): ResponseEntity<Any> {
-        val testList = listOf(
-            MatchResultDao("Lions", 3, "Snakes", 3),
-            MatchResultDao("Tarantulas", 1, "FC Awesome", 0),
-            MatchResultDao("Lions", 1, "FC Awesome", 1),
-            MatchResultDao("Tarantulas", 3, "Snakes", 1),
-            MatchResultDao("Lions", 4, "Grouches", 0)
-        )
-
-        for (lineItem in testList) {
-            matchImpl.processMatchResultEntry(lineItem)
-        }
-
-        val standingResultsList = matchImpl.publishTeamStandingResults()
-
-        processCleanup()
-
-        return ResponseEntity.ok(standingResultsList)
-    }
-
     private fun createMatchResultEntry(fileLineEntry: String): MatchResultDao {
         val hostAndOppositionDetailSplit = fileLineEntry.split(applicationConfig.getFileDelimiter())
         return getMatchResultDao(
