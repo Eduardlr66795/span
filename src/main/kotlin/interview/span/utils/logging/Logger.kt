@@ -1,4 +1,4 @@
-package interview.span.utils.logger
+package interview.span.utils.logging
 
 import org.slf4j.LoggerFactory
 

@@ -26,6 +26,9 @@ services:
     container_name: league_service
     environment:
       - PROFILE=local
+      - DB_URL=jdbc:mysql://league_db:3306/league
+      - DB_USER=root
+      - DB_PASSWORD=password
       - DATABASE_NAME=league
       - DATABASE_PORT=3306
       - DATABASE_HOST=league_db
