@@ -36,6 +36,9 @@ class Processor @Autowired constructor(
         return ResponseEntity.ok(standingResultsList)
     }
 
+    /**
+     * This is a hardcoded list I used for testing (I left it in here as I constantly test if the container is up and running)
+     */
     fun processStandingResultsRequest(): ResponseEntity<Any> {
         val testList = listOf(
             MatchResultDao("Lions", 3, "Snakes", 3),
