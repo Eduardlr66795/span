@@ -3,8 +3,8 @@ package interview.span.application.service.team
 import interview.span.domain.persistence.entities.TeamEntity
 import interview.span.domain.persistence.entities.TeamStandingEntity
 import interview.span.utils.config.ApplicationConstants
-import interview.span.utils.logging.objects.LogEntry
 import interview.span.utils.logging.Logger
+import interview.span.utils.logging.objects.LogEntry
 import interview.span.utils.logging.tags.LogTags
 import org.springframework.stereotype.Component
 
@@ -14,7 +14,7 @@ class TeamServiceImpl : TeamService {
     override fun createTeamEntry(teamName: String): TeamEntity {
         Logger.info(LogEntry(LogTags.CREATE_TEAM_ENTITY))
 
-        return  TeamEntity(
+        return TeamEntity(
             name = teamName
         )
     }

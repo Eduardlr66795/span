@@ -25,6 +25,6 @@ object LogTags {
     )
 
     val PUBLISH_TEAM_STANDING_RESULT = LogTagObject(
-        "TeamStandingResult", "PublishNewTeamStandingResult"
+        "TeamStandingResult", "Result"
     )
 }

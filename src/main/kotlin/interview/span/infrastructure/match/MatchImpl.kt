@@ -12,8 +12,8 @@ import interview.span.domain.persistence.entities.TeamStandingEntity
 import interview.span.infrastructure.match.mapper.MatchMapper
 import interview.span.infrastructure.persistence.Repository
 import interview.span.infrastructure.standing.events.UpdateTeamStandingEvent
-import interview.span.utils.logging.objects.LogEntry
 import interview.span.utils.logging.Logger
+import interview.span.utils.logging.objects.LogEntry
 import interview.span.utils.logging.tags.LogTags
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
@@ -35,9 +35,9 @@ class MatchImpl @Autowired constructor(
         )
     }
 
-    fun publishTeamStandingResults(): List<Any> {
+    fun publishTeamStandingResults(displayResults: Boolean = true): List<Any> {
         return publishTeamStandingResults(
-            repository.findTopScoresDescending()
+            repository.findTopScoresDescending(), displayResults
         )
     }
 
@@ -53,7 +53,7 @@ class MatchImpl @Autowired constructor(
      * 2. After each of match result entry has been processed.
      *
      */
-    private fun publishTeamStandingResults(teamPointsDescending: List<Int>): List<String> {
+    private fun publishTeamStandingResults(teamPointsDescending: List<Int>, displayResults: Boolean): List<String> {
         // Find the top scores in descendingOrder
         var currPosition = 1
         val teamStandingResults = mutableListOf<String>()
@@ -64,12 +64,12 @@ class MatchImpl @Autowired constructor(
             if (topTeamStandingEntityList.size == 1) {
                 val position = currPosition++
                 teamStandingResults.add(
-                    updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first())
+                    updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first(), displayResults)
                 )
             } else {
                 for (topTeamStandingEntity in topTeamStandingEntityList) {
                     teamStandingResults.add(
-                        updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity)
+                        updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity, displayResults)
                     )
                 }
                 currPosition += topTeamStandingEntityList.size
@@ -77,24 +77,6 @@ class MatchImpl @Autowired constructor(
         }
 
         return teamStandingResults
-
-        // // val teamStandingResults = listOf<String>()
-        // return teamPointsDescending.map { points ->
-        //     val topTeamStandingEntityList = repository.findByPoints(points)
-        //     if (topTeamStandingEntityList.size == 1) {
-        //         val position = currPosition++
-        //         teamStandingResults.plus(
-        //             updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first())
-        //         )
-        //     } else {
-        //         for (topTeamStandingEntity in topTeamStandingEntityList) {
-        //             teamStandingResults.plus(
-        //                 updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity)
-        //             )
-        //         }
-        //         currPosition += topTeamStandingEntityList.size
-        //     }
-        // }
     }
 
     /**
@@ -160,24 +142,17 @@ class MatchImpl @Autowired constructor(
      */
     private fun updateAndDisplayTeamStandingResults(
         position: Int,
-        teamStandingEntity: TeamStandingEntity
+        teamStandingEntity: TeamStandingEntity,
+        displayResults: Boolean
     ): String {
         teamStandingEntity.setPosition(position)
         repository.persist(teamStandingEntity)
 
         val result = ("$position. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
 
-        Logger.info(
-            LogEntry(
-                LogTags.PUBLISH_TEAM_STANDING_RESULT,
-                mapOf(
-                    "position" to position,
-                    "teamName" to teamStandingEntity.getTeamName(),
-                    "points" to "${teamStandingEntity.getPoints()} pts"
-                )
-            )
-        )
-
+        if (displayResults) {
+            println(result)
+        }
         return result
     }
 

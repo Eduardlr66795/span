@@ -5,7 +5,6 @@ import interview.span.application.objects.TeamDetailDao
 import interview.span.infrastructure.match.MatchImpl
 import interview.span.infrastructure.persistence.Repository
 import interview.span.utils.config.ApplicationConfig
-import interview.span.utils.logging.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component

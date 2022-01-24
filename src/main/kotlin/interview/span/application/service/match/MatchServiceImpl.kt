@@ -5,8 +5,8 @@ import interview.span.application.objects.MatchOutcomeDao
 import interview.span.application.objects.MatchPointDao
 import interview.span.domain.persistence.entities.TeamEntity
 import interview.span.infrastructure.persistence.Repository
-import interview.span.utils.logging.objects.LogEntry
 import interview.span.utils.logging.Logger
+import interview.span.utils.logging.objects.LogEntry
 import interview.span.utils.logging.tags.LogTags
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

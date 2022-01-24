@@ -14,6 +14,10 @@ object Logger {
         processLogEntry(LogLevel.INFO, logEntry)
     }
 
+    fun displayResult(entry: String) {
+        logFactory.info(entry)
+    }
+
     private fun processLogEntry(logLevel: LogLevel, logEntry: LogEntry) {
         when (logLevel) {
             LogLevel.INFO -> {

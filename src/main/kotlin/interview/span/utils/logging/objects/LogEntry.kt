@@ -16,7 +16,6 @@ class LogEntry {
     // Searchable term that will be used to uniquely identify the resource associated with the given event
     private var attributes: Map<String, Any>? = null
 
-
     constructor(tag: String, description: String, mdc: Map<String, Any>? = null, attributes: Map<String, Any>? = null) {
         this.logType = LOGGER_EVENT_TYPE
         this.description = description
@@ -32,7 +31,6 @@ class LogEntry {
 
         setAttributes(attributes)
     }
-
 
     /**
      * This method is used to append additional attributes io the logEntry
