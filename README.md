@@ -1,17 +1,31 @@
 # OVERVIEW
+    Running the application is divided into two parts. 
+    - Part 01: Building the application
+    - Part 02: Running the application
 
-## SECTION 01: TESTING & LINTING
-Running the tests & linter locally can be done by runing the following command 
+### SECTION 01: BUILD
+    Building the application is done using Docker. This ensures that all packages & dependencies 
+    are installed when running the application. 
 
-#### Option 01: Running the tests & linting (Recommended)
-  ``mvn verify``
+    The application can be build by running the following command in a terminal in the main directory 
+    of the application 
+    
+    NOTE: Docker will have to install all the dependencies so this make take some time (+- 6min)
+    
+    NOTE: Once completed - The build terminal will display the results of the application,
+          hence it should not be closed once the build is completed
 
-#### Option 02: Running the tests 
-  ``mvn test``
-
-#### Option 03: Running the linting
-  ``mvn antrun:run@ktlint``
+    COMMAND:
+        bash buildFile.sh
 
 
-## SECTION 02: RUNNING THE APPLICATION
-``bash runFile.sh``
+### SECTION 02: RUN
+    Once the application has sucsesfully been built you can open a new terminal and run the application.
+    
+    NOTE: The solution makes use of a database that is cleared after each iteration. 
+
+    COMMAND
+        bash runFile.sh {path_to_file}
+
+    EXAMPLE:
+        bash runFile.sh /Users/eduard/Desktop/test_file.txt
