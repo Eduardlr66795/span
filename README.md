@@ -1,5 +1,5 @@
 # OVERVIEW
-    Running the application is divided into two parts. 
+    Running the application is divided into 2 parts. 
     - Part 01: Building the application
     - Part 02: Running the application
 
