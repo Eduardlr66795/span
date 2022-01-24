@@ -17,19 +17,21 @@ class Processor @Autowired constructor(
     private val matchImpl: MatchImpl
 ) {
 
-    fun processStandingResultsRequest() {
-        // processStandingResultsRequest(
-        //     "/Users/eduard/Desktop/test_file.txt"
-        // )
+    /**
+     * The logic in this method is used to process the file given to us by the user
+     * @param fileName - The name of the file given to us by the user
+     */
+    fun processStandingResultsRequest(fileName: String) {
+        File(fileName).bufferedReader().readLines().map { lineItem ->
+            matchImpl.processMatchResultEntry(
+                createMatchResultEntry(lineItem)
+            )
+        }
 
-        processRequest()
-
-        Logger.info()
-
-        processCleanup()
+        matchImpl.publishTeamStandingResults()
     }
 
-    fun processRequest() {
+    fun processStandingResultsRequest() {
         val testList = listOf(
             MatchResultDao("Lions", 3, "Snakes", 3),
             MatchResultDao("Tarantulas", 1, "FC Awesome", 0),
@@ -38,25 +40,11 @@ class Processor @Autowired constructor(
             MatchResultDao("Lions", 4, "Grouches", 0)
         )
 
-        Logger.info()
-
         for (lineItem in testList) {
             matchImpl.processMatchResultEntry(lineItem)
         }
-    }
 
-    /**
-     * The logic in this method is used to process the file given to us by the user
-     * @param fileName - The name of the file given to us by the user
-     */
-    private fun processStandingResultsRequest(fileName: String) {
-        File(fileName).bufferedReader().readLines().map { lineItem ->
-            matchImpl.processMatchResultEntry(
-                createMatchResultEntry(lineItem)
-            )
-        }
-
-        matchImpl.publishTeamStandingResults()
+        processCleanup()
     }
 
     private fun createMatchResultEntry(fileLineEntry: String): MatchResultDao {

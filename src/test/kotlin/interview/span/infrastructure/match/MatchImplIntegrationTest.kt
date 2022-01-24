@@ -47,7 +47,7 @@ class MatchImplIntegrationTest {
 
         val testMatchResultDao = MatchResultDao("Lions", 3, "Snakes", 1)
         matchImpl.processMatchResultEntry(testMatchResultDao)
-        matchImpl.publishTeamStandingResults(false)
+        matchImpl.publishTeamStandingResults()
 
         val lionsTeamEntityOptional = repository.findTeamEntity("Lions")
         val snakesTeamEntityOptional = repository.findTeamEntity("Snakes")
@@ -87,7 +87,7 @@ class MatchImplIntegrationTest {
             matchImpl.processMatchResultEntry(entry)
         }
 
-        matchImpl.publishTeamStandingResults(false)
+        matchImpl.publishTeamStandingResults()
 
         val lionsTeamEntityOptional = repository.findTeamEntity("Lions")
         val snakesTeamEntityOptional = repository.findTeamEntity("Snakes")

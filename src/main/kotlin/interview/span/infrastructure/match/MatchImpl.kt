@@ -12,6 +12,9 @@ import interview.span.domain.persistence.entities.TeamStandingEntity
 import interview.span.infrastructure.match.mapper.MatchMapper
 import interview.span.infrastructure.persistence.Repository
 import interview.span.infrastructure.standing.events.UpdateTeamStandingEvent
+import interview.span.utils.logging.objects.LogEntry
+import interview.span.utils.logging.Logger
+import interview.span.utils.logging.tags.LogTags
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
@@ -32,9 +35,9 @@ class MatchImpl @Autowired constructor(
         )
     }
 
-    fun publishTeamStandingResults(displayResults: Boolean = true) {
+    fun publishTeamStandingResults() {
         publishTeamStandingResults(
-            repository.findTopScoresDescending(), displayResults
+            repository.findTopScoresDescending()
         )
     }
 
@@ -50,7 +53,7 @@ class MatchImpl @Autowired constructor(
      * 2. After each of match result entry has been processed.
      *
      */
-    fun publishTeamStandingResults(teamPointsDescending: List<Int>, displayResults: Boolean) {
+    fun publishTeamStandingResults(teamPointsDescending: List<Int>) {
         // Find the top scores in descendingOrder
         var currPosition = 1
 
@@ -59,10 +62,10 @@ class MatchImpl @Autowired constructor(
 
             if (topTeamStandingEntityList.size == 1) {
                 val position = currPosition++
-                updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first(), displayResults)
+                updateAndDisplayTeamStandingResults(position, topTeamStandingEntityList.first())
             } else {
                 for (topTeamStandingEntity in topTeamStandingEntityList) {
-                    updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity, displayResults)
+                    updateAndDisplayTeamStandingResults(currPosition, topTeamStandingEntity)
                 }
                 currPosition += topTeamStandingEntityList.size
             }
@@ -132,15 +135,23 @@ class MatchImpl @Autowired constructor(
      */
     private fun updateAndDisplayTeamStandingResults(
         position: Int,
-        teamStandingEntity: TeamStandingEntity,
-        displayResults: Boolean
+        teamStandingEntity: TeamStandingEntity
     ) {
         teamStandingEntity.setPosition(position)
         repository.persist(teamStandingEntity)
 
-        if (displayResults) {
-            println("$position. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
-        }
+        println("$position. ${teamStandingEntity.getTeamName()}, ${teamStandingEntity.getPoints()} pts")
+
+        Logger.info(
+            LogEntry(
+                LogTags.PUBLISH_TEAM_STANDING_RESULT,
+                mapOf(
+                    "position" to position,
+                    "teamName" to teamStandingEntity.getTeamName(),
+                    "points" to "${teamStandingEntity.getPoints()} pts"
+                )
+            )
+        )
     }
 
     private fun processMatchResultEntry(host: TeamEntity, opposition: TeamEntity, matchResultEntry: MatchResultDao) {

@@ -5,6 +5,9 @@ import interview.span.application.objects.MatchOutcomeDao
 import interview.span.application.objects.MatchPointDao
 import interview.span.domain.persistence.entities.TeamEntity
 import interview.span.infrastructure.persistence.Repository
+import interview.span.utils.logging.objects.LogEntry
+import interview.span.utils.logging.Logger
+import interview.span.utils.logging.tags.LogTags
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import interview.span.domain.persistence.entities.LeagueMatchEntity as Match
@@ -16,6 +19,8 @@ class MatchServiceImpl @Autowired constructor(
 ) : MatchService {
 
     override fun createMatchEntry(matchOutcomeDao: MatchOutcomeDao): Match {
+        Logger.info(LogEntry(LogTags.CREATE_MATCH_ENTITY))
+
         return Match(
             hostId = matchOutcomeDao.hostTeam.getId(),
             hostName = matchOutcomeDao.hostTeam.getName(),
@@ -27,6 +32,8 @@ class MatchServiceImpl @Autowired constructor(
     }
 
     override fun createPointAllocationEntity(matchId: Long, team: TeamEntity, matchPoint: MatchPointDao): MatchPointAllocation {
+        Logger.info(LogEntry(LogTags.CREATE_MATCH_POINT_ALLOCATION_ENTITY))
+
         return MatchPointAllocation(
             matchId = matchId,
             teamId = team.getId(),

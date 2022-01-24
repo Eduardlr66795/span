@@ -1,5 +1,6 @@
 package interview.span.domain.persistence.entities
 
+import com.google.gson.JsonObject
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
@@ -14,7 +15,6 @@ import javax.persistence.Table
 @Entity
 @Table(name = "teams")
 class TeamEntity(
-
     @Column(name = "name", updatable = true, nullable = false)
     private val name: String,
 ) {
@@ -45,5 +45,12 @@ class TeamEntity(
 
     fun getName(): String {
         return name
+    }
+
+    fun properties(): String {
+        val properties = JsonObject()
+        properties.addProperty("teamName", name)
+
+        return properties.toString()
     }
 }

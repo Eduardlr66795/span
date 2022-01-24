@@ -1,27 +1,28 @@
 package interview.span.infrastructure.processor.rest.standings.v1
 
 import interview.span.infrastructure.processor.Processor
-import interview.span.utils.logging.Logger
-import interview.span.utils.metrics.DataDog
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api/v1")
 class StandingsV1Controller(
-    private val processor: Processor,
-    private val datadog: DataDog
+    private val processor: Processor
 ) {
 
-    @PostMapping(path = ["test"], consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun standingResultsRequestV1() {
+    @PostMapping(path = ["process-file"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun standingResultsRequestV1(
+        @RequestParam fileName: String
+    ) {
+        processor.processStandingResultsRequest(fileName)
+    }
 
-        Logger.info()
-
-        datadog.metricCounter(DataDog.API_ENDPOINT)
-
+    @PostMapping(path = ["process-hardcoded-list"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun standingResultsRequestV1(
+    ) {
         processor.processStandingResultsRequest()
     }
 }
